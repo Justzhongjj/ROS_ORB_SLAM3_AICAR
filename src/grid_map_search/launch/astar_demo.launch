@@ -1,0 +1,21 @@
+<launch>
+  <arg name="distance" default="euclidean"/> <!--　euclidean  manhattan-->
+  <arg name="weight_a" default="1.0"/>      
+  <arg name="weight_b" default="1.0"/>
+  
+  <arg name="map_file" default="$(find grid_map_search)/maps/sim_environment1.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="map"/>
+  </node>
+ 
+  <node name="AstarNode" pkg="grid_map_search" type="AstarNode" output="screen">
+    <param name="heuristic/distance" value="$(arg distance)"/>
+    <param name="weight/a" value="$(arg weight_a)"/>
+    <param name="weight/b" value="$(arg weight_b)"/>
+  </node>
+  <node pkg="tf" type="static_transform_publisher" name="odom_combined_broadcaster" args="0 0 0 0 0 0 /map /odom 100" />
+  
+ 
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find grid_map_search)/rviz/demo.rviz"/>
+  
+</launch>

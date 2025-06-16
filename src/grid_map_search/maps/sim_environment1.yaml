@@ -1,0 +1,7 @@
+image: /home/zjj/data/map/occupancyMap/sim_environment1.pgm
+resolution: 0.050000
+origin: [-7.250000, -5.350000, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+
