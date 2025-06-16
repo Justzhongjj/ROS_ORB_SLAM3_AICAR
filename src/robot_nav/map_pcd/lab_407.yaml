@@ -1,0 +1,7 @@
+image: /home/zjj/catkin_ws/src/robot_nav/map_pcd/lab_407.pgm
+resolution: 0.050000
+origin: [-104.749998, -35.999998, -nan]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

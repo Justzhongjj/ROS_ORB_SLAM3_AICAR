@@ -1,0 +1,21 @@
+<launch>
+
+     <!-- Run the map server -->
+    <!--arg name="2dmap" default="407map2.yaml" /-->
+	<!--node name = "map_server" pkg = "map_server" type = "map_server" args="/home/zjj/data/map/occupancyMap/$(arg 2dmap) /map:=prior_map"/-->
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base1" output="screen" clear_params="true" args="/map:=prior_map /odom:=Odometry">
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+        <rosparam file="$(find robot_config)/param/teb_local_planner_params.yaml" command="load" />
+        <!--param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /-->
+        <!--rosparam file="$(find robot_config)/param/base_local_planner_params.yaml" command="load" /-->
+        <param name="global_global_planner" value="global_planner/GlobalPlanner" />
+        <rosparam file="$(find robot_config)/param/global_planner_params.yaml" command="load" />
+        <rosparam file="$(find robot_config)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find robot_config)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find robot_config)/param/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find robot_config)/param/global_costmap_params.yaml" command="load" />
+    </node>
+
+    <!--node pkg="robot_nav_pkg" type="Trans_TF_2d" name="trans_tF_2d" / -->
+</launch>

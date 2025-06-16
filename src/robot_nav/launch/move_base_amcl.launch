@@ -1,0 +1,6 @@
+<launch>
+
+    <include file="$(find robot_config)/launch/amcl.launch" />
+    <include file="$(find robot_config)/launch/move_base.launch" />
+
+</launch>

@@ -1,0 +1,31 @@
+<launch>
+    
+    <!--把pcd转为pointcloud2,再用八叉树装为栅格地图-->
+    <!--node pkg="point_cloud_processing" name="publish_pointcloud" type="publish_pointcloud" required="true" /-->
+    <!--include file="$(find point_cloud_processing)/launch/octomaptransform.launch" /-->
+    
+    <!-- Run the map server -->
+    <arg name="2dmap" default="407map5.yaml" />
+	<node name = "map_server" pkg = "map_server" type = "map_server" args="/home/zjj/data/map/occupancyMap/$(arg 2dmap) /map:=prior_map"/>
+    
+
+    <!--把深度图转为三维点云图PointCloud2-->
+    <!--node pkg="depth2cloud" name="pointcloud_pub" type="depth2cloud_node" required="true" /-->
+
+    <!--把深度图转为雷达点云Laserscan-->
+    <!--node pkg="pointcloud2_to_laserscan" name="laserscan_pub" type="laserscan_node" required="true" /-->
+    <include file="$(find depthimage_to_laserscan)/launch/laserscan.launch" />
+
+    <!--启动rplidar雷达Laserscan-->
+    <!--include file="$(find rplidar_ros)/launch/rplidar_a3.launch" /-->
+
+    <!-- 发布一个相机camera到机器人基坐标系base_link的静态映射 -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_pub_1" args="0 0.2 0.5 0 0 -1.570796 base_link camera" />
+	<!-- 发布一个初始位置odom到map的静态映射 -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_pub_2" args="0 0 0 0 0 0 map odom" /> 
+    <!-- 发布一个相机camera到机器人基坐标系base_link的静态映射 -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_pub_3" args="0 0.0 0.1  1.570796 0 0 base_link laser" />
+
+    <include file="$(find robot_nav)/launch/move_base_amcl.launch" />
+
+</launch>
