@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+
+    <param name="frame_id" type="string" value="map"/>
+
+    <param name="resolution" value="0.05"/>
+
+    <param name="sensor_model/max_range" value="1000.0"/>
+    <param name="latch" value="true"/>
+
+    <param name="pointcloud_max_z" value="0.8"/>
+    <param name="pointcloud_min_z" value="0.2"/>
+
+    <remap from="/cloud_in" to="/pointcloud/output"/>
+    <!--rosrun map_server map_saver map:=//projected_map -f PATH_TO_YOUR_FILE/mymap-->
+    </node>  
+
+    <!--node pkg="map_server" type="map_saver" name="map_saver1" args="-f /home/zjj/data/map/occupancyMap/map1" output="screen"-->
+    <node pkg="map_server" type="map_saver" name="map_saver2" args="-f /home/zjj/data/map/occupancyMap/407map4" output="screen">
+		<remap from="map" to="/projected_map" /> 		
+	  </node>
+
+</launch>
+
+
